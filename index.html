@@ -4,37 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ПЗ 1 — A‑Frame сцена</title>
-  <!-- Стабильная версия A‑Frame -->
-  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js"></script>
   <style>body{margin:0}</style>
 </head>
 <body>
-  <!-- Базова сцена з матеріалів ПЗ 1 -->
-  <a-scene renderer="antialias: true">
-    <!-- Сіре небо/фон -->
+  <a-scene>
     <a-sky color="grey"></a-sky>
-
-    <!-- Зелений тор (a-torus) -->
     <a-torus position="-2 1 -5" color="green" radius="1.2"></a-torus>
-
-    <!-- Площина (a-plane). У вихідних матеріалах її доводилось рухати, щоб було видно -->
     <a-plane width="7" height="7" rotation="-55 0 0" position="-2 -2 -5" color="purple"></a-plane>
-
-    <!-- Жовтий та синій циліндри (льодяники) під тором -->
     <a-cylinder color="yellow" height="2" radius="0.05" position="-2 -1 -5"></a-cylinder>
     <a-cylinder color="blue"   height="2" radius="0.05" position="-3 -1 -5"></a-cylinder>
-
-    <!-- Кренделеподібна фігура (a-torus-knot) правіше/вище -->
     <a-torus-knot color="orange" radius="1.2" position="-3 1 -5"></a-torus-knot>
-
-    <!-- Додаткова біла площина для напису попереду сцени -->
     <a-plane width="9" height="2" color="#ffffff" position="3 1 -9"></a-plane>
-
-    <!-- Текст попереду (Welcome to browser's VR) -->
     <a-text value="Welcome to browser's VR" color="black" width="10" position="-0.5 1 -6"></a-text>
-
-    <!-- Камера за замовчанням -->
-    <a-entity camera position="0 1.6 0"></a-entity>
+    <a-entity camera position="0 1.8 0"></a-entity>
   </a-scene>
 </body>
 </html>
