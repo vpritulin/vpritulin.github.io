@@ -1,78 +1,30 @@
-<!DOCTYPE html>
-<script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/three.js/build/ar-threex.js"></script>
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+  <style>body{margin:0;overflow:hidden}</style>
 </head>
 <body>
-<div class="hint">Наведіть камеру на маркер <b>HIRO</b></div>
-<script>
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-document.body.appendChild(renderer.domElement);
-
-
-const scene = new THREE.Scene();
-const camera = new THREE.Camera();
-scene.add(camera);
-
-
-scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-const dir = new THREE.DirectionalLight(0xffffff, 0.8);
-dir.position.set(1, 2, 0.5);
-scene.add(dir);
-
-
-const arSource = new THREEx.ArToolkitSource({ sourceType: 'webcam' });
-arSource.init(() => onResize());
-window.addEventListener('resize', onResize);
-function onResize(){
-arSource.onResizeElement();
-arSource.copyElementSizeTo(renderer.domElement);
-if (arContext.arController !== null) {
-arSource.copyElementSizeTo(arContext.arController.canvas);
-}
-}
-
-
-const arContext = new THREEx.ArToolkitContext({
-cameraParametersUrl: THREEx.ArToolkitContext.baseURL + 'data/camera_para.dat',
-detectionMode: 'mono'
-});
-arContext.init(() => {
-camera.projectionMatrix.copy(arContext.getProjectionMatrix());
-});
-
-
-// Контейнер для об’єктів, прив’язаних до маркера HIRO
-const markerRoot = new THREE.Group();
-scene.add(markerRoot);
-const markerControls = new THREEx.ArMarkerControls(arContext, markerRoot, {
-type: 'pattern', patternUrl: THREEx.ArToolkitContext.baseURL + 'data/patt.hiro'
-});
-
-
-const planeGeo = new THREE.PlaneGeometry(1.5, 1.5);
-const planeMat = new THREE.MeshStandardMaterial({ color: 0x666666, transparent: true, opacity: 0.15 });
-const plane = new THREE.Mesh(planeGeo, planeMat);
-plane.rotation.x = -Math.PI/2;
-markerRoot.add(plane);
-
-
-const box = new THREE.Mesh(
-new THREE.BoxGeometry(1,1,1),
-new THREE.MeshStandardMaterial({ color: 0x4CC3D9, metalness: 0.2, roughness: 0.6 })
-);
-box.position.y = 0.5;
-markerRoot.add(box);
-
-
-function animate(){
-requestAnimationFrame(animate);
-if (arSource.ready) arContext.update(arSource.domElement);
-box.rotation.y += 0.01;
-renderer.render(scene, camera);
-}
-animate();
-</script>
+  <a-scene embedded renderer="antialias: true; alpha: true"
+           arjs="sourceType: webcam; debugUIEnabled: false; facingMode: environment;">
+    <a-marker preset="hiro" emitevents="true">
+      <a-plane rotation="-90 0 0" width="1.5" height="1.5"
+               material="opacity:0.15; transparent:true; color:#555"></a-plane>
+      <a-box position="0 0.5 0" depth="1" height="1" width="1"
+             material="metalness:0.2; roughness:0.6; color:#4CC3D9"></a-box>
+      <a-entity position="0 1.2 0"
+                text="value: Hello, AR.js!; align: center; color: #fff; width: 2"></a-entity>
+    </a-marker>
+    <a-entity camera></a-entity>
+  </a-scene>
+  <script>
+    // лог в консоль при обнаружении/потере маркера — видно «живо» ли трекинг
+    const m = document.querySelector('a-marker');
+    m.addEventListener('markerFound', () => console.log('markerFound'));
+    m.addEventListener('markerLost',  () => console.log('markerLost'));
+  </script>
 </body>
 </html>
