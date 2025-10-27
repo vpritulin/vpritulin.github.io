@@ -15,21 +15,22 @@
 </head>
 <body>
 <a-scene embedded renderer="antialias:true; alpha:true"
-         arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono;">
-  <a-marker id="m" preset="hiro" emitevents="true">
-    <a-plane rotation="-90 0 0" width="2" height="2"
-             material="opacity:0.25; transparent:true; color:#666"></a-plane>
-    <a-box position="0 0.8 0" depth="1.2" height="1.2" width="1.2"
-           material="metalness:0.2; roughness:0.6; color:#4CC3D9"></a-box>
-    <a-entity position="0 1.7 0"
-              text="value: Hello, AR.js!; align: center; color: #fff; width: 3"></a-entity>
-  </a-marker>
-  <a-entity camera></a-entity>
+         arjs="sourceType: webcam; debugUIEnabled:false; detectionMode: mono;">
+  <!-- Камера «привязана» к маркеру -->
+  <a-marker-camera preset="hiro" emitevents="true" id="mk"></a-marker-camera>
+
+  <!-- Объект теперь в центре мира (0,0,0), а камера двигается вместе с маркером -->
+  <a-plane rotation="-90 0 0" width="2" height="2"
+           material="opacity:0.25; transparent:true; color:#666"></a-plane>
+  <a-box position="0 0.8 0" depth="1.2" height="1.2" width="1.2"
+         material="metalness:0.2; roughness:0.6; color:#4CC3D9"></a-box>
+  <a-entity position="0 1.7 0"
+            text="value: Hello, AR.js!; align: center; color: #fff; width: 3"></a-entity>
 </a-scene>
 <script>
-  const m=document.getElementById('m');
-  m.addEventListener('markerFound',()=>console.log('markerFound'));
-  m.addEventListener('markerLost', ()=>console.log('markerLost'));
+  const mk = document.getElementById('mk');
+  mk.addEventListener('markerFound',()=>console.log('markerFound'));
+  mk.addEventListener('markerLost', ()=>console.log('markerLost'));
 </script>
 
 </body>
