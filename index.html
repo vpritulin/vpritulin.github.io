@@ -14,38 +14,23 @@
   </style>
 </head>
 <body>
-  <a-scene embedded renderer="antialias:true; alpha:true"
-           arjs="sourceType: webcam; debugUIEnabled: false;">
-    <!-- ВАЖНО: без facingMode и без type/url, только preset="hiro" -->
-    <a-marker id="m" preset="hiro" emitevents="true">
-      <!-- Сделаем объект крупнее и повыше, чтобы точно был в кадре -->
-      <a-plane rotation="-90 0 0" width="2" height="2"
-               material="opacity:0.2; transparent:true; color:#666"></a-plane>
+<a-scene embedded renderer="antialias:true; alpha:true"
+         arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono;">
+  <a-marker id="m" preset="hiro" emitevents="true">
+    <a-plane rotation="-90 0 0" width="2" height="2"
+             material="opacity:0.25; transparent:true; color:#666"></a-plane>
+    <a-box position="0 0.8 0" depth="1.2" height="1.2" width="1.2"
+           material="metalness:0.2; roughness:0.6; color:#4CC3D9"></a-box>
+    <a-entity position="0 1.7 0"
+              text="value: Hello, AR.js!; align: center; color: #fff; width: 3"></a-entity>
+  </a-marker>
+  <a-entity camera></a-entity>
+</a-scene>
+<script>
+  const m=document.getElementById('m');
+  m.addEventListener('markerFound',()=>console.log('markerFound'));
+  m.addEventListener('markerLost', ()=>console.log('markerLost'));
+</script>
 
-      <a-box id="cube" position="0 0.75 0" depth="1.2" height="1.2" width="1.2"
-             material="metalness:0.2; roughness:0.6; color:#4CC3D9"></a-box>
-
-      <!-- Текст — как яркая метка -->
-      <a-entity position="0 1.6 0"
-                text="value: Hello, AR.js!; align: center; color: #fff; width: 3"></a-entity>
-    </a-marker>
-
-    <!-- Обычная камера A-Frame (AR.js сам ей управляет) -->
-    <a-entity camera></a-entity>
-  </a-scene>
-
-  <div id="dbg">
-    <div><b>Marker:</b> <span id="s">WAIT…</span></div>
-    <div><b>Hints:</b> подсветка, матовый HIRO 5–10 см, 15–25 см от камеры</div>
-  </div>
-
-  <script>
-    const m = document.getElementById('m');
-    const s = document.getElementById('s');
-    m.addEventListener('markerFound', () => s.textContent = 'FOUND');
-    m.addEventListener('markerLost',  () => s.textContent = 'LOST');
-    // safety: если через 7с нет found — подскажем, что маркер не ловится
-    setTimeout(() => { if (s.textContent === 'WAIT…') s.textContent = 'NO MARKER'; }, 7000);
-  </script>
 </body>
 </html>
