@@ -8,9 +8,8 @@
   <style>body{margin:0;overflow:hidden}</style>
 </head>
 <body>
-  <a-scene embedded renderer="antialias: true; alpha: true"
+  <a-scene embedded renderer="antialias:true; alpha:true"
            arjs="sourceType: webcam; debugUIEnabled: false;">
-    <!-- ВАЖНО: только preset="hiro". НЕ добавляйте type/url одновременно -->
     <a-marker preset="hiro" emitevents="true">
       <a-plane rotation="-90 0 0" width="1.5" height="1.5"
                material="opacity:0.15; transparent:true; color:#555"></a-plane>
@@ -23,7 +22,6 @@
   </a-scene>
 
   <script>
-    // Логи появятся при распознавании/потере маркера
     const m = document.querySelector('a-marker');
     m.addEventListener('markerFound', () => console.log('markerFound'));
     m.addEventListener('markerLost',  () => console.log('markerLost'));
