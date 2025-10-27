@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>A‑Frame + AR.js (маркер HIRO)</title>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+<style> body{margin:0;overflow:hidden} .hint{position:fixed;left:1rem;bottom:1rem;background:#0008;color:#fff;padding:.5rem .75rem;border-radius:.5rem;font:14px/1.4 system-ui} </style>
+</head>
+<body>
+<a-scene embedded renderer="antialias: true; alpha: true" stats arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
+
+<a-entity light="type: ambient; intensity: 0.6"></a-entity>
+<a-entity light="type: directional; intensity: 0.8" position="0 2 1"></a-entity>
+
+
+<a-marker type="pattern" preset="hiro">
+<a-plane rotation="-90 0 0" width="1.5" height="1.5" color="#555" material="opacity:0.15; transparent:true"></a-plane>
+<a-box position="0 0.5 0" depth="1" height="1" width="1"
+color="#4CC3D9" material="metalness:0.2; roughness:0.6"></a-box>
+<a-animation attribute="rotation" dur="5000" fill="forwards" to="0 360 0" repeat="indefinite"></a-animation>
+<a-entity position="0 1.2 0" text="value: Hello, AR.js!; align: center; color: #fff; width: 2"></a-entity>
+</a-marker>
+
+<a-entity camera></a-entity>
+</a-scene>
+
+
+<div class="hint">Наведіть камеру на маркер <b>HIRO</b></div>
+</body>
+</html>

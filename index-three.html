@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/three.js/build/ar-threex.js"></script>
+</head>
+<body>
+<div class="hint">Наведіть камеру на маркер <b>HIRO</b></div>
+<script>
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+document.body.appendChild(renderer.domElement);
+
+
+const scene = new THREE.Scene();
+const camera = new THREE.Camera();
+scene.add(camera);
+
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+dir.position.set(1, 2, 0.5);
+scene.add(dir);
+
+
+const arSource = new THREEx.ArToolkitSource({ sourceType: 'webcam' });
+arSource.init(() => onResize());
+window.addEventListener('resize', onResize);
+function onResize(){
+arSource.onResizeElement();
+arSource.copyElementSizeTo(renderer.domElement);
+if (arContext.arController !== null) {
+arSource.copyElementSizeTo(arContext.arController.canvas);
+}
+}
+
+
+const arContext = new THREEx.ArToolkitContext({
+cameraParametersUrl: THREEx.ArToolkitContext.baseURL + 'data/camera_para.dat',
+detectionMode: 'mono'
+});
+arContext.init(() => {
+camera.projectionMatrix.copy(arContext.getProjectionMatrix());
+});
+
+
+// Контейнер для об’єктів, прив’язаних до маркера HIRO
+const markerRoot = new THREE.Group();
+scene.add(markerRoot);
+const markerControls = new THREEx.ArMarkerControls(arContext, markerRoot, {
+type: 'pattern', patternUrl: THREEx.ArToolkitContext.baseURL + 'data/patt.hiro'
+});
+
+
+const planeGeo = new THREE.PlaneGeometry(1.5, 1.5);
+const planeMat = new THREE.MeshStandardMaterial({ color: 0x666666, transparent: true, opacity: 0.15 });
+const plane = new THREE.Mesh(planeGeo, planeMat);
+plane.rotation.x = -Math.PI/2;
+markerRoot.add(plane);
+
+
+const box = new THREE.Mesh(
+new THREE.BoxGeometry(1,1,1),
+new THREE.MeshStandardMaterial({ color: 0x4CC3D9, metalness: 0.2, roughness: 0.6 })
+);
+box.position.y = 0.5;
+markerRoot.add(box);
+
+
+function animate(){
+requestAnimationFrame(animate);
+if (arSource.ready) arContext.update(arSource.domElement);
+box.rotation.y += 0.01;
+renderer.render(scene, camera);
+}
+animate();
+</script>
+</body>
+</html>
