@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Практика 3 — AR.js + A‑Frame (HIRO)</title>
+  <!-- A‑Frame 1.3.0 -->
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <!-- AR.js (A‑Frame build) -->
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <style>
+    html,body { margin:0; height:100%; overflow:hidden; background:#000; }
+  </style>
+</head>
+<body>
+
+
+  <a-scene embedded arjs="trackingMethod: best; sourceType: webcam;">
+    <!-- Прив'язуємо контент до стандартного маркера HIRO -->
+    <a-marker type="pattern" preset="hiro">
+      <a-entity position="0 0 0" rotation="0 0 0" scale="1 1 1">
+        <!-- Обертовий тор -->
+        <a-torus position="0 0.5 0" color="#09a25f" radius="0.5" radius-tubular="0.1"
+                 animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear">
+        </a-torus>
+
+        <!-- Площина з текстурою (UV сітка) -->
+        <a-plane src="https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/images/uvgrid/UV_Grid_Sm.jpg"
+                 width="2.5" height="1.5" position="0 1 -1" rotation="-30 0 0">
+        </a-plane>
+
+        <!-- Два циліндри «стовпчики» -->
+        <a-cylinder color="#ffee00" height="0.8" radius="0.05" position="0 0 0"></a-cylinder>
+        <a-cylinder color="#3366ff" height="0.8" radius="0.05" position="1 0 0"></a-cylinder>
+
+        <!-- Кренделеподібна фігура з анімацією кольору -->
+        <a-torus-knot color="#ff9933" radius="0.5" radius-tubular="0.08" position="1 0.5 0"
+                      animation__color="property: components.material.material.color; type: color; from: #ff9933; to: #ff3366; dir: alternate; loop: true; dur: 3000">
+        </a-torus-knot>
+
+        <!-- Текст (латинка, щоб не підключати окремий шрифт) -->
+        <a-text value="Welcome to AR" color="#111" width="3" position="-1 0.5 -1"></a-text>
+      </a-entity>
+    </a-marker>
+
+    <!-- Камера -->
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
+</html>
