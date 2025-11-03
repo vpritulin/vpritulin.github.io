@@ -13,10 +13,8 @@
     vr-mode-ui="enabled: false" 
     arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
     
-    <!-- Маркер HIRO -->
     <a-marker preset="hiro">
-      
-      <!-- Зелений тор з анімацією -->
+
       <a-torus 
         position="0 0.5 0" 
         color="green" 
@@ -24,8 +22,6 @@
         radius-tubular="0.1"
         animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
       </a-torus>
-      
-      <!-- Фіолетова площина -->
       <a-plane 
         color="purple"
         width="1.5" 
@@ -33,24 +29,18 @@
         rotation="-90 0 0" 
         position="0 0 0">
       </a-plane>
-      
-      <!-- Жовтий циліндр -->
       <a-cylinder 
         color="yellow" 
         height="1" 
         radius="0.05" 
         position="-0.3 0.5 0">
       </a-cylinder>
-      
-      <!-- Синій циліндр -->
       <a-cylinder 
         color="blue" 
         height="1" 
         radius="0.05" 
         position="0.3 0.5 0">
       </a-cylinder>
-      
-      <!-- Помаранчева кренделеподібна фігура з анімацією -->
       <a-torus-knot 
         color="orange" 
         radius="0.3"
@@ -59,14 +49,12 @@
         animation="property: rotation; to: 360 0 360; loop: true; dur: 15000; easing: linear">
       </a-torus-knot>
       
-      <!-- Текстова площина -->
       <a-plane 
         color="white"
         width="1.2" 
         height="0.3" 
         position="0 1.2 0"
         rotation="0 0 0">
-        <!-- Текст -->
         <a-text 
           value="Вітаємо у AR!" 
           color="black" 
@@ -76,7 +64,6 @@
         </a-text>
       </a-plane>
       
-      <!-- Червона сфера -->
       <a-sphere 
         position="-0.5 0.3 0" 
         radius="0.2" 
@@ -86,12 +73,10 @@
       
     </a-marker>
     
-    <!-- Камера -->
     <a-entity camera></a-entity>
     
   </a-scene>
   
-  <!-- Інструкції для користувача -->
   <div style="position: fixed; bottom: 10px; left: 10px; right: 10px; background: rgba(0,0,0,0.8); color: white; padding: 10px; border-radius: 5px; font-family: Arial; font-size: 14px; z-index: 1000;">
     <strong>Інструкції:</strong><br>
     1. Дозвольте доступ до камери<br>
@@ -101,20 +86,17 @@
     <small>Якщо не працює, спробуйте в Chrome або Firefox на HTTPS</small>
   </div>
   
-  <!-- Індикатор завантаження -->
   <div id="loading" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); color: white; padding: 20px; border-radius: 10px; font-family: Arial; z-index: 2000;">
     Завантаження AR...
   </div>
   
   <script>
-    // Приховати індикатор завантаження після ініціалізації
     window.addEventListener('load', function() {
       setTimeout(function() {
         document.getElementById('loading').style.display = 'none';
       }, 2000);
     });
     
-    // Перевірка помилок
     window.addEventListener('arjs-video-loaded', function() {
       console.log('AR.js відео завантажено');
     });
