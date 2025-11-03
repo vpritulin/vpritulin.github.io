@@ -1,57 +1,133 @@
-<!doctype html>
-<html lang="uk">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Практика 3 — Сцена як у відео (A‑Frame 1.3.0 + AR.js)</title>
-  <!-- A‑Frame 1.3.0 -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR сцена з A-Frame та AR.js</title>
   <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-  <!-- AR.js (A‑Frame build) -->
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  <style>
-    html,body { margin:0; height:100%; overflow:hidden; background:#000; }
-    .hint{position:fixed;left:8px;right:8px;bottom:8px;padding:8px 12px;background:rgba(0,0,0,.6);color:#bbb;border-radius:10px;font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Arial}
-    .hint a{color:#9cf}
-  </style>
 </head>
-<body>
- 
-
-  <a-scene
-    embedded
-    vr-mode-ui="enabled: false"
-    renderer="alpha: true; logarithmicDepthBuffer: true; antialias: true; precision: mediump;"
-    arjs="trackingMethod: best; sourceType: webcam; sourceWidth: 640; sourceHeight: 480; displayWidth: 640; displayHeight: 480; debugUIEnabled: false;">
-
-    <a-assets timeout="15000">
- 
-      <img id="uv" crossorigin="anonymous" src="https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/images/uvgrid/UV_Grid_Sm.jpg">
-      <img id="painting" crossorigin="anonymous" src="https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/images/illustration/758px-Canestra_di_frutta_(Caravaggio).jpg">
-    </a-assets>
-
-    <a-entity light="type: ambient; intensity: 0.9"></a-entity>
-    <a-entity light="type: directional; intensity: 0.6" position="1 2 1"></a-entity>
-
+<body style="margin: 0; overflow: hidden;">
+  
+  <a-scene embedded arjs='trackingMethod: best; debugUIEnabled: false;'>
+    
+    <!-- Маркер HIRO -->
     <a-marker preset="hiro">
-      <a-plane src="#uv" width="3.5" height="3.5" rotation="-90 0 0" position="0 0 0"></a-plane>
-
-      <a-plane src="#painting" width="2.5" height="1.5" position="0 1 -1" rotation="0 0 0"></a-plane>
-
-      <a-torus position="-2 1 -5" color="#09a25f" radius="1.2"></a-torus>
-      <a-torus position="0 0.5 0" radius="0.5" radius-tubular="0.08" color="#09a25f"
-               animation="property: rotation; to: 0 360 0; dur: 8000; loop: true; easing: linear"></a-torus>
-
-      <a-cylinder color="#ffee00" height="0.8" radius="0.05" position="0 0 0"></a-cylinder>
-      <a-cylinder color="#3366ff" height="0.8" radius="0.05" position="1 0 0"></a-cylinder>
-
-      <a-torus-knot color="#ff9933" radius="0.5" radius-tubular="0.08" position="1 0.5 0"
-                    animation__color="property: components.material.material.color; type: color; from: #ff9933; to: #ff3366; dir: alternate; loop: true; dur: 3000"></a-torus-knot>
-
-      <a-text value="Welcome to AR" color="#111" width="3" position="-1 0.5 -1"></a-text>
+      
+      <!-- Зелений тор з анімацією -->
+      <a-torus 
+        position="0 0.5 0" 
+        color="green" 
+        radius="0.5"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 10000">
+      </a-torus>
+      
+      <!-- Фіолетова площина з текстурою -->
+      <a-plane 
+        src="https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/images/illustration/758px-Canestra_di_frutta_(Caravaggio).jpg"
+        width="3.5" 
+        height="3.5" 
+        rotation="-55 0 0" 
+        position="0 -1 0">
+      </a-plane>
+      
+      <!-- Жовтий циліндр -->
+      <a-cylinder 
+        color="yellow" 
+        height="2" 
+        radius="0.05" 
+        position="0 0 0">
+      </a-cylinder>
+      
+      <!-- Синій циліндр -->
+      <a-cylinder 
+        color="blue" 
+        height="2" 
+        radius="0.05" 
+        position="1 0 0">
+      </a-cylinder>
+      
+      <!-- Помаранчева кренделеподібна фігура з анімацією -->
+      <a-torus-knot 
+        color="orange" 
+        radius="0.5" 
+        position="1 0.5 0"
+        animation="property: rotation; to: 360 0 360; loop: true; dur: 15000">
+      </a-torus-knot>
+      
+      <!-- Площина для тексту -->
+      <a-plane 
+        src="https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/images/uvgrid/UV_Grid_Sm.jpg"
+        width="2.5" 
+        height="1.5" 
+        position="0 1 -1">
+      </a-plane>
+      
+      <!-- Текст -->
+      <a-text 
+        value="Вітаємо у браузерній AR!" 
+        color="black" 
+        width="3" 
+        position="-1 1 -1"
+        align="center">
+      </a-text>
+      
     </a-marker>
+    
+    <!-- Маркер KANJI -->
+    <a-marker preset="kanji">
+      
+      <!-- Червона сфера -->
+      <a-sphere 
+        position="0 0.5 0" 
+        radius="0.5" 
+        color="red"
+        animation="property: scale; to: 1.2 1.2 1.2; loop: true; dur: 2000; dir: alternate">
+      </a-sphere>
+      
+      <!-- Синій куб -->
+      <a-box 
+        position="0 1.5 0" 
+        color="blue" 
+        rotation="45 45 0"
+        animation="property: rotation; to: 45 405 360; loop: true; dur: 8000">
+      </a-box>
+      
+      <!-- Зелений конус -->
+      <a-cone 
+        position="1 0.5 0" 
+        color="green" 
+        radius-bottom="0.3" 
+        radius-top="0.1"
+        animation="property: position; to: 1 1 0; loop: true; dur: 3000; dir: alternate">
+      </a-cone>
+      
+      <!-- Текст -->
+      <a-text 
+        value="Другий маркер!" 
+        color="white" 
+        width="2" 
+        position="-0.8 0 1"
+        align="center">
+      </a-text>
+      
+    </a-marker>
+    
+    <!-- Камера -->
     <a-entity camera></a-entity>
+    
   </a-scene>
-
-  <div class="hint">Наведи камеру на <a target="_blank" href="https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/images/illustration/758px-Canestra_di_frutta_(Caravaggio).jpg">маркер HIRO</a>. Якщо відео «миготить», спробуй інший браузер або нижчу роздільність (у коді 640×480).</div>
+  
+  <!-- Інструкції для користувача -->
+  <div style="position: fixed; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 15px; border-radius: 5px; font-family: Arial; max-width: 300px; z-index: 1000;">
+    <h3 style="margin-top: 0;">Інструкції:</h3>
+    <p style="margin: 5px 0;">1. Надайте доступ до камери</p>
+    <p style="margin: 5px 0;">2. Наведіть камеру на маркер HIRO або KANJI</p>
+    <p style="margin: 5px 0;">3. Маркери можна знайти тут:</p>
+    <a href="https://github.com/AR-js-org/AR.js/blob/master/data/images/hiro.png?raw=true" target="_blank" style="color: #4CAF50;">Маркер HIRO</a><br>
+    <a href="https://github.com/AR-js-org/AR.js/blob/master/data/images/pinball.jpg?raw=true" target="_blank" style="color: #4CAF50;">Маркер KANJI</a><br>
+    <p style="margin: 10px 0 5px 0; font-size: 12px;">Або скористайтесь будь-яким AR маркером HIRO/KANJI з Google Images</p>
+  </div>
+  
 </body>
 </html>
