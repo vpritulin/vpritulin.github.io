@@ -3,14 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AR.js + A‑Frame — Стабільна сцена з вибором камери</title>
+  <title>AR.js + A‑Frame — Маркер HIRO + фонова площина</title>
   <script>
+    // ---- ПАРСИНГ ПАРАМЕТРІВ З URL ----
     const params = new URLSearchParams(location.hash.replace(/^#/, ''));
     const pickedDeviceId = params.get('deviceId') || '';
     const facing = params.get('facing') || 'environment'; // 'user' | 'environment'
     const res = (params.get('res') || '640x480').split('x');
     const srcW = parseInt(res[0]||'640',10); const srcH = parseInt(res[1]||'480',10);
 
+    // Збираємо атрибути для AR.js на <a-scene> (ВАЖЛИВО: не на marker-camera!)
     window.ARJS_ATTR = [
       'trackingMethod: best',
       'debugUIEnabled: false',
@@ -35,7 +37,7 @@
 </head>
 <body>
   <div class="ui">
-    <div><strong>Камера пропадає?</strong> Обери конкретну камеру нижче.</div>
+    <div><strong>Камера пропадає?</strong> Обери конкретну камеру нижче і натисни «Застосувати».</div>
     <label>
       Пристрій відео:
       <select id="cameraSelect"><option>Завантаження...</option></select>
@@ -60,11 +62,19 @@
 
   <script>
     const sceneHtml = `
-      <a-scene embedded vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true; antialias: true; precision: mediump;">
-        <a-marker-camera preset="hiro" arjs="${window.ARJS_ATTR}"></a-marker-camera>
-        <a-box position="0 0.5 0" rotation="0 45 0" depth="0.9" height="0.9" width="0.9" color="#FF3D00"
-               animation="property: rotation; to: 0 405 0; loop: true; dur: 3000; easing: linear"></a-box>
-        <a-text value="AR READY" color="#222" width="2.5" position="-1 0 -0.5"></a-text>
+      <a-scene embedded vr-mode-ui="enabled: false" renderer="alpha: true; logarithmicDepthBuffer: true; antialias: true; precision: mediump;" arjs="${window.ARJS_ATTR}">
+        <a-marker preset="hiro">
+    
+          <a-plane src="https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/images/illustration/758px-Canestra_di_frutta_(Caravaggio).jpg"
+                   width="3" height="3" position="0 0 0" rotation="-90 0 0"></a-plane>
+
+          <a-box position="0 0.5 0" rotation="0 45 0" depth="0.9" height="0.9" width="0.9" color="#FF3D00"
+                 animation="property: rotation; to: 0 405 0; loop: true; dur: 3000; easing: linear"></a-box>
+
+    
+          <a-text value="AR READY" color="#222" width="2.5" position="-1 0 -0.5"></a-text>
+        </a-marker>
+        <a-entity camera></a-entity>
       </a-scene>`;
     document.write(sceneHtml);
 
@@ -106,7 +116,6 @@
     });
   </script>
 
-  <!-- Підказка щодо маркера HIRO -->
   <div style="position:fixed; bottom:8px; left:8px; right:8px; padding:8px; background:rgba(0,0,0,.6); color:#bbb; z-index:10000; border-radius:8px;">
     Використай <a href="https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/images/illustration/758px-Canestra_di_frutta_(Caravaggio).jpg" target="_blank" style="color:#9cf;">маркер HIRO</a>.
   </div>
